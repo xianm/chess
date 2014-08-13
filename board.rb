@@ -19,6 +19,18 @@ class Board
     @grid.flatten.compact
   end
   
+  def pieces_by_color(color)
+    pieces.select { |piece| piece.color == color }
+  end
+  
+  def enemy_pieces(our_color)
+    pieces.select { |piece| piece.color != our_color }
+  end
+  
+  def players_king(color)
+    pieces_by_color(color).find { |piece| piece.is_a?(King) }
+  end
+  
   def reset_pieces
     @grid = Array.new(8) { Array.new(8, nil) } 
 
@@ -53,8 +65,8 @@ class Board
   end
 
   def do_move(player, move)
-    to_pos = [move.to_x, move.to_y]
-    from = self[[move.from_x, move.from_y]]
+    to_pos = move.to
+    from = self[move.from]
 
     raise "Cannot move an empty piece." if from.nil?
 
@@ -62,8 +74,11 @@ class Board
   end
   
   def in_check?(player)
-    king = pieces.select { |piece| piece.is_a?(King) && piece.color == player.color }.first
-    enemy_pieces = pieces.select { |piece| piece.color != player.color }
-    enemy_pieces.any? { |piece| piece.moves.include?(king.pos) }
+    king = players_king(player.color)
+    enemy_pieces(player.color).any? { |piece| piece.moves.include?(king.pos) }
+  end
+  
+  def in_checkmate?(player)
+    in_check?(player) && players_king(player.color).moves.empty?
   end
 end

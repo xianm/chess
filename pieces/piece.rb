@@ -10,6 +10,10 @@ class Piece
     @color = color
     @moved = false
   end
+  
+  def moves
+    raise "Moves not implemented!"
+  end
 
   def move(player, to_pos)
     return unless legal_move?(player, to_pos)
