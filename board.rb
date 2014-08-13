@@ -36,9 +36,7 @@ class Board
   end
   
   def render
-    print "  "
-    ("a".."h").each { |l| print "#{l} " }
-    puts ""
+    puts "  #{('a'..'h').to_a.join(" ")}"
       
     @grid.each_with_index do |row, y|
       print "#{y + 1} "
@@ -49,8 +47,6 @@ class Board
       end
       print "\n"
     end
-    
-    ""
   end
 
   def do_move(move)
