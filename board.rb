@@ -59,7 +59,12 @@ class Board
     raise MoveIntoCheckError if from.moves_into_check.include?(to_pos)
     raise InvalidMoveError unless from.valid_moves.include?(to_pos)
     
-    move!(from_pos, to_pos)
+    piece = move!(from_pos, to_pos)
+    
+    if piece.is_a?(Pawn) && (piece.pos[1] == 0 || piece.pos[1] == 7)
+      self[to_pos] = player.get_promotion.new(self, to_pos, player.color)
+      
+    end
   end
   
   def move!(from_pos, to_pos)
@@ -69,6 +74,7 @@ class Board
 
     self[to_pos] = from
     self[from_pos] = nil
+    self[to_pos]
   end
   
   def reset_pieces
@@ -81,7 +87,7 @@ class Board
     end
 
     8.times do |i|
-     self[[i, 1]] = Pawn.new(self, [i, 1], :white)
+     self[[i, 5]] = Pawn.new(self, [i, 5], :white)
      self[[i, 6]] = Pawn.new(self, [i, 6], :black)
     end
   end

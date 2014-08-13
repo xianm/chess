@@ -10,4 +10,16 @@ class Player
   def get_move
     Move.parse_input(self, gets.chomp)
   end
+  
+  def get_promotion
+    pieces = [Queen, Bishop, Rook, Knight]
+    pieces.each_with_index { |piece, i| puts "#{i + 1}: #{piece}" }
+    begin
+      print "#{@name} Promotion > "
+      pieces[Integer(gets.chomp) - 1]
+    rescue ArgumentError
+      puts "Invalid selection, try again."
+      retry
+    end
+  end
 end
