@@ -1,6 +1,6 @@
 class Board
   def initialize(reset = true)
-    @grid = Array.new(8) { Array.new(8, nil) } 
+    @grid = Array.new(8) { Array.new(8) } 
     reset_pieces if reset
   end
   

@@ -8,6 +8,6 @@ class Player
   end
 
   def get_move
-    Move.parse_input(gets.chomp)
+    Move.parse_input(self, gets.chomp)
   end
 end
