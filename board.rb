@@ -43,14 +43,24 @@ class Board
     @grid.each_with_index do |row, y|
       print "#{y + 1} "
       row.each_with_index do |piece, x|
-        space = " "
-        space = "#" if (x % 2 == 0 && y % 2 == 0) || (x % 2 != 0 && y % 2 != 0)
+        space = "#"
+        space = " " if (x % 2 == 0 && y % 2 == 0) || (x % 2 != 0 && y % 2 != 0)
         print "#{piece.nil? ? space : piece } "
       end
       print "\n"
     end
     
     ""
+  end
+
+  def do_move(move)
+    to_pos = [move.to_x, move.to_y]
+    from = self[[move.from_x, move.from_y]]
+
+    return false if from.nil?
+    return false unless from.moves.include?(to_pos)
+
+    from.move(to_pos)
   end
   
   def legal_move?(piece, pos)

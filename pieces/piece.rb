@@ -10,4 +10,17 @@ class Piece
     @color = color
     @moved = false
   end
+
+  def move(to_pos)
+    @moved = true
+
+    from_pos = @pos
+
+    @board[to_pos] = self
+    @pos = to_pos
+
+    unless @board[from_pos].nil?
+      @board[from_pos] = nil
+    end
+  end
 end

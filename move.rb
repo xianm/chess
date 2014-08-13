@@ -5,6 +5,22 @@ class Move
     @from = from
     @to = to
   end
+
+  def from_x
+    @from[0]
+  end
+
+  def from_y
+    @from[1]
+  end
+
+  def to_x
+    @to[0]
+  end
+
+  def to_y
+    @to[1]
+  end
   
   def self.parse_input(user_input)
     raw_from, raw_to = user_input.split
@@ -19,7 +35,7 @@ class Move
   
   def self.parse_coords(raw_input)
     split = raw_input.split("")
-    [split[0].ord - "a".ord, Integer(split[1])]
+    [split[0].ord - "a".ord, Integer(split[1]) - 1]
   end
 end
 
