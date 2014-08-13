@@ -11,6 +11,7 @@ class Move
   def self.parse_input(user_input)
     raw_from, raw_to = user_input.split
     
+    #todo: throw invalid input error?
     raise InvalidMoveError unless raw_from =~ REGEXP && raw_to =~ REGEXP
     
     from = Move.parse_coords(raw_from)
@@ -21,6 +22,6 @@ class Move
   
   def self.parse_coords(raw_input)
     split = raw_input.split("")
-    [split[0].ord - "a".ord, Integer(split[1]) - 1]
+    [split[0].ord - "a".ord, split[1].to_i - 1]
   end
 end

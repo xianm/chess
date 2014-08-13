@@ -31,7 +31,7 @@ class Board
   def pieces_by_color(color)
     pieces.select { |piece| piece.color == color }
   end
-  
+
   def enemy_pieces(our_color)
     pieces.select { |piece| piece.color != our_color }
   end
@@ -40,17 +40,48 @@ class Board
     pieces_by_color(color).find { |piece| piece.is_a?(King) }
   end
   
+  def in_check?(color)
+    king = players_king(color)
+    enemy_pieces(color).any? { |piece| piece.moves.include?(king.pos) }
+  end
+  
+  def checkmate?(color)
+    in_check?(color) && pieces_by_color(color).all? do |piece|
+      piece.valid_moves.empty?
+    end
+  end
+  
+  require 'debugger' 
+  
+  def move(from_pos, to_pos)
+    debugger
+    
+    from = self[from_pos]
+    
+    raise EmptyMoveError if from.nil?
+    raise InvalidMoveError unless from.valid_moves.include?(to_pos)
+    
+    move!(from_pos, to_pos)
+  end
+  
+  def move!(from_pos, to_pos)
+    from = self[from_pos]
+    from.pos = to_pos
+    from.moved = true
+
+    self[to_pos] = from
+    self[from_pos] = nil
+  end
+  
   def reset_pieces
-    # All pieces, sans pawns
+    pieces = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+    
     [[0, :white], [7, :black]].each do |(y, color)|
-      x = 0
-      [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook].each do |piece|
+      pieces.each_with_index do |piece, x|
         self[[x, y]] = piece.new(self, [x, y], color)
-        x += 1
       end
     end
 
-    # Pawns
     8.times do |i|
      self[[i, 1]] = Pawn.new(self, [i, 1], :white)
      self[[i, 6]] = Pawn.new(self, [i, 6], :black)
@@ -68,26 +99,6 @@ class Board
         print "#{piece.nil? ? space : piece } "
       end
       print "\n"
-    end
-  end
-
-  def do_move(player, move)
-    from = self[move.from]
-
-    raise InvalidMoveError if from.nil?
-
-    from.move(player, move.to)
-  end
-  
-  def in_check?(player)
-    king = players_king(player.color)
-    enemy_pieces(player.color).any? { |piece| piece.moves.include?(king.pos) }
-  end
-  
-  def in_checkmate?(player)
-    king = players_king(player.color)
-    in_check?(player) && king.moves.all? do |move|
-      king.move_to_check?(player, move)
     end
   end
 end

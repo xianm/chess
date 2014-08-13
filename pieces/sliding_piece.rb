@@ -13,7 +13,7 @@ class SlidingPiece < Piece
   def moves_in_dir(pos, dir)
     dpos = [pos[0] + dir[0], pos[1] + dir[1]]
 
-    return [] unless valid_move?(self, pos)
+    return [] unless valid_move?(pos)
     return [pos] unless @board[pos].nil?
   
     [pos] + moves_in_dir(dpos, dir)

@@ -14,15 +14,18 @@ class Chess
     @active_player = @white_player
   end
   
-  def play    
+  def play
     until game_over?
       render
+      
       begin
         handle_move(get_move)
       rescue InvalidMoveError => error
         puts error.message
+        puts error.backtrace.join("\n")
        retry
       end
+
       switch_turns
     end
     
@@ -32,11 +35,11 @@ class Chess
   end
   
   def game_over?
-    @board.in_checkmate?(@white_player) || @board.in_checkmate?(@black_player)
+    @board.checkmate?(:white) || @board.checkmate?(:black)
   end
   
   def winner
-    @board.in_checkmate?(@white_player) ? @black_player : @white_player
+    @board.checkmate?(:white) ? @black_player : @white_player
   end
   
   def render
@@ -47,11 +50,11 @@ class Chess
   
   def get_move
     print "#{@active_player.name} > "
-    move = @white_player.get_move
+    move = @active_player.get_move
   end
   
   def handle_move(move)
-    @board.do_move(@active_player, move)
+    @board.move(move.from, move.to)
   end
 
   def switch_turns
