@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require './player'
 require './pieces'
 require './board'
