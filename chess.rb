@@ -24,10 +24,18 @@ class Chess
       end
       switch_turns
     end
+    
+    render
+    
+    puts "#{winner.name} wins."
   end
   
   def game_over?
     @board.in_checkmate?(@white_player) || @board.in_checkmate?(@black_player)
+  end
+  
+  def winner
+    @board.in_checkmate?(@white_player) ? @black_player : @white_player
   end
   
   def render
