@@ -92,9 +92,11 @@ class Board
     @grid.each_with_index do |row, y|
       print "#{y + 1} "
       row.each_with_index do |piece, x|
-        space = "#"
-        space = " " if (x % 2 == 0 && y % 2 == 0) || (x % 2 != 0 && y % 2 != 0)
-        print "#{piece.nil? ? space : piece } "
+        if (x % 2 == 0 && y % 2 == 0) || (x % 2 != 0 && y % 2 != 0)
+          print "#{piece.nil? ? " " : piece } ".on_light_white
+        else
+          print "#{piece.nil? ? " " : piece } ".on_white
+        end
       end
       print "\n"
     end
