@@ -1,7 +1,6 @@
 require './pieces'
 
 class Board
-
   def initialize
     reset_pieces
   end
@@ -49,12 +48,13 @@ class Board
     end
   end
 
-  def do_move(move)
+  def do_move(player, move)
     to_pos = [move.to_x, move.to_y]
     from = self[[move.from_x, move.from_y]]
 
-    return false if from.nil?
-    return false unless from.moves.include?(to_pos)
+    raise "Cannot move an empty piece." if from.nil?
+    raise "Player can only move their own piece." if player.color != from.color
+    raise "Illegal move." unless from.moves.include?(to_pos)
 
     from.move(to_pos)
   end

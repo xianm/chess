@@ -6,15 +6,20 @@ require './move'
 class Chess
   def initialize()
     @board = Board.new
-    @white_player = Player.new("White", @board)
-    @black_player = Player.new("Black", @board)
+    @white_player = Player.new("White", :white, @board)
+    @black_player = Player.new("Black", :black, @board)
     @active_player = @white_player
   end
   
   def play
     until game_over?
       render
-      handle_move(get_move)
+      begin
+        handle_move(get_move)
+      rescue StandardError => error
+        puts error.message
+        retry
+      end
       switch_turns
     end
   end
@@ -40,7 +45,7 @@ class Chess
   end
   
   def handle_move(move)
-    @board.do_move(move)
+    @board.do_move(@active_player, move)
   end
 
   def switch_turns

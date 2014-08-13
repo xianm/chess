@@ -23,4 +23,13 @@ class Piece
       @board[from_pos] = nil
     end
   end
+
+  def legal_move?(player, piece, pos)
+    raise "Unauthorized moved" if player.color != piece.color
+
+    target = self[pos]
+    
+    return true if target.nil?
+    piece.color != target.color
+  end
 end
