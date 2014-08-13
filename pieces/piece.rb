@@ -20,6 +20,10 @@ class Piece
     moves.reject { |move| move_into_check?(move) }
   end
   
+  def moves_into_check
+    moves.select { |move| move_into_check?(move) }
+  end
+  
   def move_into_check?(to_pos)
     dup_board = @board.dup
     dup_board.move!(@pos, to_pos)

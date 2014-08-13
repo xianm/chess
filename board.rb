@@ -51,10 +51,12 @@ class Board
     end
   end
 
-  def move(from_pos, to_pos)
+  def move(player, from_pos, to_pos)
     from = self[from_pos]
     
     raise EmptyMoveError if from.nil?
+    raise PermissionError if player.color != from.color
+    raise MoveIntoCheckError if from.moves_into_check.include?(to_pos)
     raise InvalidMoveError unless from.valid_moves.include?(to_pos)
     
     move!(from_pos, to_pos)

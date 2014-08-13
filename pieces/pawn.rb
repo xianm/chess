@@ -33,5 +33,4 @@ class Pawn < Piece
   def attack_move_dirs
     @color == :white ? [[1, 1], [-1, 1]] : [[1, -1], [-1, -1]]
   end
-
 end

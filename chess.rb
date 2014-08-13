@@ -17,12 +17,11 @@ class Chess
   def play
     until game_over?
       render
-      
+
       begin
         handle_move(get_move)
       rescue InvalidMoveError => error
         puts error.message
-        puts error.backtrace.join("\n")
        retry
       end
 
@@ -54,7 +53,7 @@ class Chess
   end
   
   def handle_move(move)
-    @board.move(move.from, move.to)
+    @board.move(@active_player, move.from, move.to)
   end
 
   def switch_turns
