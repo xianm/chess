@@ -87,7 +87,7 @@ class Board
     end
 
     8.times do |i|
-     self[[i, 5]] = Pawn.new(self, [i, 5], :white)
+     self[[i, 1]] = Pawn.new(self, [i, 1], :white)
      self[[i, 6]] = Pawn.new(self, [i, 6], :black)
     end
   end
