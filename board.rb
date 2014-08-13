@@ -1,5 +1,3 @@
-require './pieces'
-
 class Board
   def initialize(reset = true)
     @grid = Array.new(8) { Array.new(8, nil) } 
