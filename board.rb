@@ -74,12 +74,11 @@ class Board
   end
 
   def do_move(player, move)
-    to_pos = move.to
     from = self[move.from]
 
     raise "Cannot move an empty piece." if from.nil?
 
-    from.move(player, to_pos)
+    from.move(player, move.to)
   end
   
   def in_check?(player)

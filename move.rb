@@ -1,25 +1,11 @@
 class Move
   REGEXP = /[a-hA-H]{1}[1-8]{1}/
   
+  attr_reader :from, :to
+  
   def initialize(from, to)
     @from = from
     @to = to
-  end
-
-  def from_x
-    @from[0]
-  end
-
-  def from_y
-    @from[1]
-  end
-
-  def to_x
-    @to[0]
-  end
-
-  def to_y
-    @to[1]
   end
   
   def self.parse_input(user_input)
