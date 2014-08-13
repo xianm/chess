@@ -13,7 +13,7 @@ class Chess
     @active_player = @white_player
   end
   
-  def play
+  def play    
     until game_over?
       render
       begin
@@ -27,7 +27,7 @@ class Chess
   end
   
   def game_over?
-    return false
+    @board.in_checkmate?(@white_player) || @board.in_checkmate?(@black_player)
   end
   
   def render

@@ -87,6 +87,9 @@ class Board
   end
   
   def in_checkmate?(player)
-    in_check?(player) && players_king(player.color).moves.empty?
+    king = players_king(player.color)
+    in_check?(player) && king.moves.all? do |move|
+      king.move_to_check?(player, move)
+    end
   end
 end

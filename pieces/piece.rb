@@ -17,7 +17,10 @@ class Piece
 
   def move(player, to_pos)
     return unless legal_move?(player, to_pos)
-
+    move!(player, to_pos)
+  end
+  
+  def move!(player, to_pos)
     @moved = true
 
     from_pos = @pos
@@ -32,10 +35,15 @@ class Piece
 
     raise "Player can only move their own piece." if player.color != @color
     raise "Illegal move." unless moves.include?(to_pos)
-
-    # todo: will move put us in check?
+    raise "Cannot put yourself in check." if move_to_check?(player, to_pos)    
 
     true
+  end
+  
+  def move_to_check?(player, to_pos)
+    dup_board = @board.dup
+    dup_board[@pos].move!(player, to_pos)
+    dup_board.in_check?(player)
   end
 
   def valid_move?(piece, to_pos)
