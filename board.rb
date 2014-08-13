@@ -1,8 +1,9 @@
 require './pieces'
 
 class Board
-  def initialize
-    reset_pieces
+  def initialize(reset = true)
+    @grid = Array.new(8) { Array.new(8, nil) } 
+    reset_pieces if reset
   end
   
   def [](pos)
@@ -13,6 +14,16 @@ class Board
   def []=(pos, value)
     x, y = pos
     @grid[y][x] = value
+  end
+  
+  def dup
+    dup_board = Board.new(false)
+    
+    pieces.each do |piece|
+      dup_board[piece.pos] = piece.class.new(dup_board, piece.pos, piece.color)
+    end
+    
+    dup_board
   end
 
   def pieces
@@ -32,8 +43,6 @@ class Board
   end
   
   def reset_pieces
-    @grid = Array.new(8) { Array.new(8, nil) } 
-
     # All pieces, sans pawns
     [[0, :white], [7, :black]].each do |(y, color)|
       x = 0
