@@ -50,12 +50,8 @@ class Board
       piece.valid_moves.empty?
     end
   end
-  
-  require 'debugger' 
-  
+
   def move(from_pos, to_pos)
-    debugger
-    
     from = self[from_pos]
     
     raise EmptyMoveError if from.nil?

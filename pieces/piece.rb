@@ -29,6 +29,6 @@ class Piece
   def valid_move?(to_pos)
     return false unless to_pos.all? { |i| i.between?(0,7 ) }
     to = @board[to_pos]
-    to.nil? || @color != to.color
+    to.nil? || (!self.is_a?(Pawn) && @color != to.color)
   end
 end
