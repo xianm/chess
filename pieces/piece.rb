@@ -12,7 +12,7 @@ class Piece
   end
   
   def moves
-    raise "Moves not implemented!"
+    raise NotImplementedError
   end
 
   def move(player, to_pos)
@@ -33,9 +33,9 @@ class Piece
   def legal_move?(player, to_pos)
     valid_moves = moves
 
-    raise "Player can only move their own piece." if player.color != @color
-    raise "Illegal move." unless moves.include?(to_pos)
-    raise "Cannot put yourself in check." if move_to_check?(player, to_pos)    
+    raise PermissionError if player.color != @color
+    raise InvalidMoveError unless moves.include?(to_pos)
+    raise MoveIntoCheckError if move_to_check?(player, to_pos)    
 
     true
   end

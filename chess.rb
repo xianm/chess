@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require './errors'
 require './player'
 require './pieces'
 require './board'
@@ -18,7 +19,7 @@ class Chess
       render
       begin
         handle_move(get_move)
-      rescue StandardError => error
+      rescue InvalidMoveError => error
         puts error.message
        retry
       end
@@ -45,13 +46,8 @@ class Chess
   end
   
   def get_move
-    begin
-      print "#{@active_player.name} > "
-      move = @white_player.get_move
-    rescue InvalidMoveError => error
-      puts error.message
-      retry
-    end
+    print "#{@active_player.name} > "
+    move = @white_player.get_move
   end
   
   def handle_move(move)

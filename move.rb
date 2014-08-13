@@ -24,9 +24,3 @@ class Move
     [split[0].ord - "a".ord, Integer(split[1]) - 1]
   end
 end
-
-class InvalidMoveError < StandardError
-  def message
-    "Please enter a valid move (ex: b1 b2)!"
-  end
-end

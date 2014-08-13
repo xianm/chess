@@ -76,7 +76,7 @@ class Board
   def do_move(player, move)
     from = self[move.from]
 
-    raise "Cannot move an empty piece." if from.nil?
+    raise InvalidMoveError if from.nil?
 
     from.move(player, move.to)
   end
