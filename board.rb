@@ -46,7 +46,7 @@ class Board
     # All pieces, sans pawns
     [[0, :white], [7, :black]].each do |(y, color)|
       x = 0
-      [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook].each do |piece|
+      [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook].each do |piece|
         self[[x, y]] = piece.new(self, [x, y], color)
         x += 1
       end
