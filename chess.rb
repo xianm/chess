@@ -18,7 +18,7 @@ class Chess
         handle_move(get_move)
       rescue StandardError => error
         puts error.message
-        retry
+       retry
       end
       switch_turns
     end

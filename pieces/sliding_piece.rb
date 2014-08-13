@@ -10,14 +10,10 @@ class SlidingPiece < Piece
     moves
   end
   
-  def move_dirs
-    raise NotImplementedError
-  end
-  
   def moves_in_dir(pos, dir)
     dpos = [pos[0] + dir[0], pos[1] + dir[1]]
 
-    return [] unless @board.legal_move?(self, pos)
+    return [] unless valid_move?(self, pos)
     return [pos] unless @board[pos].nil?
   
     [pos] + moves_in_dir(dpos, dir)

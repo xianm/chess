@@ -14,6 +14,10 @@ class Board
     x, y = pos
     @grid[y][x] = value
   end
+
+  def pieces
+    @grid.flatten.compact
+  end
   
   def reset_pieces
     @grid = Array.new(8) { Array.new(8, nil) } 
@@ -53,18 +57,13 @@ class Board
     from = self[[move.from_x, move.from_y]]
 
     raise "Cannot move an empty piece." if from.nil?
-    raise "Player can only move their own piece." if player.color != from.color
-    raise "Illegal move." unless from.moves.include?(to_pos)
 
-    from.move(to_pos)
+    from.move(player, to_pos)
   end
   
-  def legal_move?(piece, pos)
-    return false unless pos.all? { |i| i.between?(0, 7) }
-    
-    target = self[pos]
-    
-    return true if target.nil?
-    piece.color != target.color
+  def in_check?(player)
+    king = pieces.select { |piece| piece.is_a?(King) && piece.color == player.color }.first
+    enemy_pieces = pieces.select { |piece| piece.color != player.color }
+    enemy_pieces.any? { |piece| piece.moves.include?(king.pos) }
   end
 end

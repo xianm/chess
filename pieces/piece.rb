@@ -11,25 +11,33 @@ class Piece
     @moved = false
   end
 
-  def move(to_pos)
+  def move(player, to_pos)
+    return unless legal_move?(player, to_pos)
+
     @moved = true
 
     from_pos = @pos
 
     @board[to_pos] = self
     @pos = to_pos
-
-    unless @board[from_pos].nil?
-      @board[from_pos] = nil
-    end
+    @board[from_pos] = nil
   end
 
-  def legal_move?(player, piece, pos)
-    raise "Unauthorized moved" if player.color != piece.color
+  def legal_move?(player, to_pos)
+    valid_moves = moves
 
-    target = self[pos]
-    
-    return true if target.nil?
-    piece.color != target.color
+    raise "Player can only move their own piece." if player.color != @color
+    raise "Illegal move." unless moves.include?(to_pos)
+
+    # todo: will move put us in check?
+
+    true
+  end
+
+  def valid_move?(piece, to_pos)
+    return false unless to_pos.all? { |i| i.between?(0,7 ) }
+
+    target = @board[to_pos]
+    target.nil? || piece.color != target.color
   end
 end
