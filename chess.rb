@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-
+require 'yaml'
 require 'colorize'
 require './errors'
 require './player'
@@ -16,15 +16,37 @@ class Chess
     @move_history = []
   end
   
+  def save_game
+    begin
+      print "\nSave the game (y/n)? "
+      selection = STDIN.gets.chomp
+      raise InvalidInputError unless selection == "y" || selection == "n"
+    rescue InvalidInputError => error
+      puts "#{error.message}"
+    end
+    
+    if selection == "y"
+      timestamp = Time.new.strftime("%F-%H%M%S")
+      File.open("chess_#{timestamp}.cg", "w") { |file| file << self.to_yaml }
+    end
+  end
+  
+  def self.load_game(file)
+    YAML.load_file(file)
+  end
+  
   def play
     until game_over?
       render
 
       begin
         @move_history << handle_move(get_move)
-      rescue InvalidMoveError => error
+      rescue InvalidMoveError => error 
         puts error.message
-       retry
+        retry
+      rescue Interrupt
+        save_game
+        exit
       end
 
       switch_turns
@@ -34,7 +56,7 @@ class Chess
     puts "#{winner.name} wins."
     render_history
   end
-  
+
   def game_over?
     @board.checkmate?(:white) || @board.checkmate?(:black)
   end
@@ -73,5 +95,6 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   game = Chess.new
+  game = Chess.load_game(ARGV[0]) unless ARGV.empty?
   game.play
 end

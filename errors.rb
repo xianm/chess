@@ -21,3 +21,9 @@ class MoveIntoCheckError < InvalidMoveError
     "You cannot move yourself into check."
   end
 end
+
+class InvalidInputError < StandardError
+  def message
+    "Please make a valid selection"
+  end
+end

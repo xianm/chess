@@ -8,7 +8,7 @@ class Player
   end
 
   def get_move
-    Move.parse_input(self, gets.chomp)
+    Move.parse_input(self, STDIN.gets.chomp)
   end
   
   def get_promotion
@@ -16,7 +16,7 @@ class Player
     pieces.each_with_index { |piece, i| puts "#{i + 1}: #{piece}" }
     begin
       print "#{@name} Promotion > "
-      pieces[Integer(gets.chomp) - 1]
+      pieces[Integer(STDIN.gets.chomp) - 1]
     rescue ArgumentError
       puts "Invalid selection, try again."
       retry
