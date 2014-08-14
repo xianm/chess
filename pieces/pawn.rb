@@ -2,7 +2,11 @@
 
 class Pawn < Piece
   def to_s
-    @color == :white ? "♙" : "♟"
+    if @color == :white
+      "♟".white
+    else
+      "♟".black
+    end
   end
   
   def moves

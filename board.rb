@@ -93,18 +93,22 @@ class Board
   end
   
   def render
-    puts "  #{('a'..'h').to_a.join(" ")}"
+    buffer = ""
+
+    buffer += "  #{('a'..'h').to_a.join(" ")}\n"
       
     @grid.each_with_index do |row, y|
-      print "#{y + 1} "
+      buffer += "#{y + 1} "
       row.each_with_index do |piece, x|
         if (x % 2 == 0 && y % 2 == 0) || (x % 2 != 0 && y % 2 != 0)
-          print "#{piece.nil? ? " " : piece } ".on_light_white
+          buffer += "#{piece.nil? ? " " : piece } ".on_light_white
         else
-          print "#{piece.nil? ? " " : piece } ".on_white
+          buffer += "#{piece.nil? ? " " : piece } ".on_light_black
         end
       end
-      print "\n"
+      buffer += "\n"
     end
+
+    puts buffer
   end
 end
