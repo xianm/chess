@@ -19,7 +19,7 @@ class Chess
   def save_game
     begin
       print "\nSave the game (y/n)? "
-      selection = STDIN.gets.chomp
+      selection = gets.chomp
       raise InvalidInputError unless selection == "y" || selection == "n"
     rescue InvalidInputError => error
       puts "#{error.message}"
@@ -96,5 +96,8 @@ end
 if __FILE__ == $PROGRAM_NAME
   game = Chess.new
   game = Chess.load_game(ARGV[0]) unless ARGV.empty?
+  
+  ARGV.clear # restores gets to STDIN
+  
   game.play
 end
